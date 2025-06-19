@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zen Yoga & Wellness</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sage-green: #A8C3A0;
+      --warm-cream: #FAF3E0;
+      --earth-brown: #7B5E57;
+      --muted-lavender: #D6CADD;
+      --olive-green: #708238;
+      --white: #fff;
+      --black: #181c17;
+    }
+    body {
+      font-family: 'Quicksand', 'Montserrat', sans-serif;
+      background: var(--warm-cream);
+      color: var(--earth-brown);
+      overflow-x: hidden;
+    }
+    body.dark-mode {
+      --sage-green: #232d22;
+      --warm-cream: #23231f;
+      --earth-brown: #e6e0d6;
+      --muted-lavender: #3a3640;
+      --olive-green: #b6d37c;
+      --white: #23231f;
+      --black: #faf3e0;
+      background: var(--warm-cream) !important;
+      color: var(--earth-brown) !important;
+    }
+    body.dark-mode .navbar,
+    body.dark-mode .contact-details,
+    body.dark-mode .feature-card,
+    body.dark-mode .showcase-card,
+    body.dark-mode .mission-card,
+    body.dark-mode .team-card,
+    body.dark-mode .chart-card,
+    body.dark-mode .testimonial,
+    body.dark-mode .testimonial-card,
+    body.dark-mode .gallery-item,
+    body.dark-mode .contact-card {
+      background: var(--sage-green) !important;
+      color: var(--earth-brown) !important;
+      box-shadow: 0 2px 12px rgba(112,130,56,0.13);
+    }
+    body.dark-mode .navbar {
+      background: var(--sage-green) !important;
+    }
+    body.dark-mode .navbar .nav-link,
+    body.dark-mode .navbar-brand {
+      color: var(--olive-green) !important;
+    }
+    body.dark-mode .navbar .nav-link.active,
+    body.dark-mode .navbar .nav-link:focus,
+    body.dark-mode .navbar .nav-link:hover {
+      color: var(--earth-brown) !important;
+    }
+    body.dark-mode .footer,
+    body.dark-mode footer {
+      background: var(--sage-green) !important;
+      color: var(--earth-brown) !important;
+    }
+    body.dark-mode .parallax-section .parallax-overlay {
+      background: rgba(35,45,34,0.7) !important;
+    }
+    body.dark-mode .form-control,
+    body.dark-mode .form-select {
+      background: var(--muted-lavender) !important;
+      color: var(--earth-brown) !important;
+      border-color: var(--olive-green) !important;
+    }
+    body.dark-mode .ripple-btn {
+      background: var(--olive-green) !important;
+      color: var(--black) !important;
+    }
+    body.dark-mode .ripple-btn:hover {
+      background: var(--earth-brown) !important;
+      color: var(--white) !important;
+    }
+    body.dark-mode .accordion-button:not(.collapsed) {
+      background: var(--sage-green) !important;
+      color: var(--earth-brown) !important;
+    }
+    body.dark-mode .accordion-button {
+      color: var(--olive-green) !important;
+    }
+    /* Loader */
+    #loader {
+      position: fixed;
+      left: 0; top: 0; width: 100vw; height: 100vh;
+      background: var(--sage-green);
+      z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.7s;
+    }
+    .lotus-loader {
+      width: 80px; height: 80px;
+      animation: spin 2s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(120deg, var(--sage-green) 60%, var(--warm-cream) 100%);
+      display: flex; align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-content {
+      z-index: 2;
+    }
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--earth-brown);
+    }
+    .hero-subtitle {
+      font-size: 1.5rem;
+      color: var(--olive-green);
+    }
+    .ripple-btn {
+      background: var(--olive-green);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      padding: 0.75rem 2.5rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s;
+    }
+    .ripple-btn:hover {
+      background: var(--earth-brown);
+      color: #fff;
+    }
+    .ripple-effect {
+      position: absolute;
+      border-radius: 50%;
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+      background: rgba(214,202,221,0.5);
+      pointer-events: none;
+    }
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+    /* Animated SVG Lotus */
+    .lotus-svg {
+      position: absolute;
+      right: 5vw;
+      bottom: 0;
+      width: 350px;
+      opacity: 0.18;
+      z-index: 1;
+      animation: floatLotus 6s ease-in-out infinite alternate;
+    }
+    @keyframes floatLotus {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-30px); }
+    }
+    /* Carousel */
+    .carousel-item img {
+      max-height: 80px;
+      object-fit: contain;
+      margin: 0 auto;
+      filter: grayscale(0.2) contrast(1.1);
+    }
+    /* Features Section */
+    .features-section {
+      background: var(--sage-green);
+      padding: 4rem 0 2rem 0;
+    }
+    .feature-icon {
+      font-size: 2.5rem;
+      color: var(--olive-green);
+      margin-bottom: 1rem;
+    }
+    .feature-card {
+      background: var(--warm-cream);
+      border: none;
+      border-radius: 18px;
+      box-shadow: 0 2px 12px rgba(120,130,56,0.07);
+      transition: transform 0.2s;
+    }
+    .feature-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 6px 24px rgba(120,130,56,0.13);
+    }
+    /* Parallax Section */
+    .parallax-section {
+      background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80');
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center;
+      min-height: 350px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .parallax-overlay {
+      background: rgba(168,195,160,0.7);
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    }
+    .parallax-content {
+      position: relative;
+      z-index: 2;
+      color: var(--earth-brown);
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+    /* Cards & Testimonials */
+    .showcase-section {
+      background: var(--warm-cream);
+      padding: 4rem 0 2rem 0;
+    }
+    .showcase-card {
+      border: none;
+      border-radius: 18px;
+      box-shadow: 0 2px 12px rgba(123,94,87,0.08);
+      transition: transform 0.2s;
+      background: #fff;
+    }
+    .showcase-card:hover {
+      transform: scale(1.04);
+      box-shadow: 0 8px 32px rgba(123,94,87,0.16);
+    }
+    .testimonial {
+      background: var(--muted-lavender);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      color: var(--earth-brown);
+      font-style: italic;
+      box-shadow: 0 2px 8px rgba(214,202,221,0.13);
+    }
+    /* Stats/Graphs */
+    .stats-section {
+      background: var(--sage-green);
+      padding: 3rem 0 2rem 0;
+    }
+    .stat {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--olive-green);
+      transition: color 0.3s;
+    }
+    .stat-label {
+      color: var(--earth-brown);
+      font-size: 1.1rem;
+    }
+    /* Scroll Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.7s cubic-bezier(.5,0,.2,1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: none;
+    }
+    /* Responsive Tweaks */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.1rem; }
+      .lotus-svg { width: 180px; right: 0; }
+      .parallax-content { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light" style="background: var(--warm-cream); box-shadow: 0 2px 12px rgba(120,130,56,0.07);">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html" style="color: var(--olive-green); font-size: 1.5rem; letter-spacing: 1px;">
+        <span style="font-size:1.7rem; vertical-align:middle;">🧘</span> Zen Yoga
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link fw-semibold" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link fw-semibold" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link fw-semibold" href="services.html">Services</a></li>
+          <li class="nav-item"><a class="nav-link fw-semibold" href="gallery.html">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link fw-semibold" href="testimonials.html">Testimonials</a></li>
+          <li class="nav-item"><a class="nav-link fw-semibold" href="blog.html">Blog</a></li>
+          <li class="nav-item"><a class="nav-link fw-semibold" href="stats.html">Stats</a></li>
+          <li class="nav-item"><a class="nav-link fw-semibold" href="contact.html">Contact</a></li>
+        </ul>
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" class="btn ms-3" aria-label="Toggle light/dark mode" style="font-size:1.3rem; background:none; border:none; color:var(--olive-green);">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+  <!-- Loader -->
+  <div id="loader">
+    <svg class="lotus-loader" viewBox="0 0 64 64" fill="none">
+      <ellipse cx="32" cy="32" rx="28" ry="10" fill="#D6CADD"/>
+      <path d="M32 8 Q40 32 32 56 Q24 32 32 8 Z" fill="#A8C3A0"/>
+      <path d="M32 8 Q36 32 32 56 Q28 32 32 8 Z" fill="#7B5E57"/>
+    </svg>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero d-flex align-items-center">
+    <div class="container hero-content">
+      <div class="row align-items-center">
+        <div class="col-lg-7 text-center text-lg-start">
+          <h1 class="hero-title mb-3">Find Your Inner Peace<br>with <span style="color:var(--olive-green)">Zen Yoga & Wellness</span></h1>
+          <p class="hero-subtitle mb-4">Guiding you to harmony, health, and holistic well-being.</p>
+          <button class="ripple-btn" id="hero-cta">Start Your Journey</button>
+        </div>
+        <div class="col-lg-5 d-none d-lg-block">
+          <!-- Animated SVG Lotus -->
+          <svg class="lotus-svg" viewBox="0 0 200 200" fill="none">
+            <ellipse cx="100" cy="170" rx="80" ry="18" fill="#D6CADD"/>
+            <path d="M100 30 Q140 100 100 170 Q60 100 100 30 Z" fill="#A8C3A0"/>
+            <path d="M100 30 Q120 100 100 170 Q80 100 100 30 Z" fill="#7B5E57"/>
+            <circle cx="100" cy="80" r="10" fill="#FAF3E0"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Carousel Section -->
+  <section class="py-5 bg-white">
+    <div class="container">
+      <h2 class="text-center mb-4" style="color:var(--olive-green)">Our Trusted Clients & Partners</h2>
+      <div id="clientCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <div class="d-flex justify-content-around align-items-center">
+              <img src="P1.png" alt="Client 1" height="60">
+              <img src="P2.png" alt="Client 2" height="60">
+              <img src="P3.png" alt="Client 3" height="60">
+              <img src="P4.png" alt="Client 4" height="60">
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="d-flex justify-content-around align-items-center">
+              <img src="P5.png" alt="Client 5" height="60">
+              <img src="P6.png" alt="Client 6" height="60">
+              <img src="P7.png" alt="Client 7" height="60">
+              <img src="P8.png" alt="Client 8" height="60">
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#clientCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#clientCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features/Services Section -->
+  <section class="features-section">
+    <div class="container">
+      <h2 class="text-center mb-5" style="color:var(--earth-brown)">Our Core Services</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card feature-card text-center p-4 reveal">
+            <div class="feature-icon mb-2">🧘‍♀️</div>
+            <h5 class="mb-2">Yoga Classes</h5>
+            <p>Personalized yoga sessions for all levels, focusing on flexibility, strength, and mindfulness.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card text-center p-4 reveal">
+            <div class="feature-icon mb-2">🌱</div>
+            <h5 class="mb-2">Wellness Coaching</h5>
+            <p>Holistic guidance on nutrition, lifestyle, and mental well-being for a balanced life.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card text-center p-4 reveal">
+            <div class="feature-icon mb-2">🧘‍♂️</div>
+            <h5 class="mb-2">Meditation</h5>
+            <p>Guided meditation and breathwork to help you find calm, clarity, and inner peace.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Parallax Section -->
+  <section class="parallax-section">
+    <div class="parallax-overlay"></div>
+    <div class="container parallax-content">
+      <span>“Yoga is the journey of the self, through the self, to the self.”<br><span style="font-size:1.1rem; color:var(--olive-green)">— The Bhagavad Gita</span></span>
+    </div>
+  </section>
+
+  <!-- Showcase/Testimonials Section -->
+  <section class="showcase-section">
+    <div class="container">
+      <h2 class="text-center mb-5" style="color:var(--olive-green)">Success Stories & Testimonials</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card showcase-card reveal">
+            <img src="Client1.jpg" class="card-img-top" alt="Client 1">
+            <div class="card-body">
+              <h5 class="card-title">Priya Sharma</h5>
+              <p class="card-text">“The yoga sessions transformed my life. I feel more energetic and at peace!”</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card showcase-card reveal">
+            <img src="Client3.jpg" class="card-img-top" alt="Client 2">
+            <div class="card-body">
+              <h5 class="card-title">Rahul Mehta</h5>
+              <p class="card-text">“The wellness coaching helped me adopt a healthier lifestyle. Highly recommended!”</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card showcase-card reveal">
+            <img src="Client2.jpg" class="card-img-top" alt="Client 3">
+            <div class="card-body">
+              <h5 class="card-title">Anjali Verma</h5>
+              <p class="card-text">“Meditation classes brought clarity and calm to my busy life. Thank you!”</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial text-center reveal mt-5">
+        “I never thought I could feel this balanced and happy. The team at Zen Yoga & Wellness is simply the best!”<br>
+        <span style="font-weight:700; color:var(--olive-green)">— Satisfied Client</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats/Graphs Section -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="row g-4 justify-content-center">
+        <div class="col-6 col-md-3 stat reveal">
+          <div class="stat-number" data-target="1200">0</div>
+          <div class="stat-label">Happy Clients</div>
+        </div>
+        <div class="col-6 col-md-3 stat reveal">
+          <div class="stat-number" data-target="15">0</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="col-6 col-md-3 stat reveal">
+          <div class="stat-number" data-target="98">0</div>
+          <div class="stat-label">Success Rate (%)</div>
+        </div>
+        <div class="col-6 col-md-3 stat reveal">
+          <div class="stat-number" data-target="30">0</div>
+          <div class="stat-label">Workshops</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-4 text-center" style="background:var(--earth-brown); color:#fff;">
+    <div>© 2024 Zen Yoga & Wellness | Designed with <span style="color:var(--muted-lavender)">peace</span> & <span style="color:var(--sage-green)">nature</span></div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom JS for Loader, Ripple, Scroll Reveal, Stats -->
+  <script>
+    // Loader
+    window.addEventListener('load', function() {
+      setTimeout(() => {
+        document.getElementById('loader').style.opacity = 0;
+        setTimeout(() => document.getElementById('loader').style.display = 'none', 700);
+      }, 1200);
+    });
+
+    // Ripple Effect
+    document.querySelectorAll('.ripple-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        const circle = document.createElement('span');
+        circle.classList.add('ripple-effect');
+        const rect = btn.getBoundingClientRect();
+        circle.style.width = circle.style.height = Math.max(rect.width, rect.height) + 'px';
+        circle.style.left = (e.clientX - rect.left - rect.width/2) + 'px';
+        circle.style.top = (e.clientY - rect.top - rect.height/2) + 'px';
+        btn.appendChild(circle);
+        setTimeout(() => circle.remove(), 600);
+      });
+    });
+
+    // Scroll Reveal
+    function revealOnScroll() {
+      document.querySelectorAll('.reveal').forEach(el => {
+        const windowHeight = window.innerHeight;
+        const elementTop = el.getBoundingClientRect().top;
+        if(elementTop < windowHeight - 60) {
+          el.classList.add('active');
+        }
+      });
+    }
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('DOMContentLoaded', revealOnScroll);
+
+    // Animated Stats
+    function animateStats() {
+      document.querySelectorAll('.stat-number').forEach(stat => {
+        let started = false;
+        function animate() {
+          if (started) return;
+          const rect = stat.getBoundingClientRect();
+          if(rect.top < window.innerHeight - 40) {
+            started = true;
+            const target = +stat.getAttribute('data-target');
+            let count = 0;
+            const step = Math.ceil(target / 60);
+            const interval = setInterval(() => {
+              count += step;
+              if(count >= target) {
+                stat.textContent = target;
+                clearInterval(interval);
+              } else {
+                stat.textContent = count;
+              }
+            }, 25);
+          }
+        }
+        window.addEventListener('scroll', animate);
+        animate();
+      });
+    }
+    animateStats();
+
+    // Theme Toggle
+    function setTheme(dark) {
+      document.body.classList.toggle('dark-mode', dark);
+      document.getElementById('theme-icon').textContent = dark ? '☀️' : '🌙';
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedTheme = localStorage.getItem('theme');
+      setTheme(savedTheme === 'dark');
+      document.getElementById('theme-toggle').onclick = function() {
+        setTheme(!document.body.classList.contains('dark-mode'));
+      };
+    });
+  </script>
+</body>
+</html> 
